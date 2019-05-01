@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <button class="btn btn-success Spacio" (click)="openModal(template)">Crear</button>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>IdUser</th>
+            <th>Title</th>
+            <th>Body</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let p of post ">
+            <td>{{p.userId}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.body}}</td>
+            <td>
+              <button class="btn btn-warning">Editar</button>
+              <button class="btn btn-danger">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div>
+          <pagination-controls  id="listing_pagination" maxSize="5" directionLinks="true" (pageChange)="page = $event"></pagination-controls>
+        </div> -->
+    </div>
+  </div>
+</div>
+<ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Crear Post</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <label for="userId">Id de usuario: </label>
+        <input type="number" name="idCliente" class="form-control" [(ngModel)]="postClass.userId">
+        <p class="text-danger">{{msgError.userId}}</p>
+        <label for="title">Titulo: </label>
+        <input type="text" name="title" class="form-control" [(ngModel)]="postClass.title">
+        <p class="text-danger">{{msgError.title}}</p>
+        <label for="body">Cuerpo: </label>
+        <input type="text" name="body" class="form-control" [(ngModel)]="postClass.body">
+        <p class="text-danger">{{msgError.body}}</p>
+        <button class="btn btn-primary Spacio" (click)="onCreate()">Crear</button>
+      </form>
+    </div>
+  </ng-template>
