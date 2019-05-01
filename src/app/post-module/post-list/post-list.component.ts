@@ -1,6 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { PostService } from '../../../services/post.service'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { post } from '../../../models/post'
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-post-list',
@@ -12,15 +14,20 @@ export class PostListComponent implements OnInit {
   totalRec : number;  
   modalRef: BsModalRef;
   page: number = 1;
-  postClass: Post = new Post()
+  postClass: post = new post()
   msgError: MsgError = new MsgError()
-
+  postForm: FormGroup;
   constructor(
     private postService : PostService,
     private modalService: BsModalService
   ) { }
 
   ngOnInit() {
+    this.postForm = new FormGroup({
+      userId: new FormControl('', Validators.required),
+      title: new FormControl('', Validators.required),
+      body: new FormControl('', Validators.required)
+    })
     this.getPost()
   }
 
@@ -39,13 +46,18 @@ export class PostListComponent implements OnInit {
   }
 
   onCreate(){
+    const formulario = this.postForm.value
     this.msgError.userId = this.msgError.body = this.msgError.title = ''
-    !this.msgError.userId ? this.msgError.userId = 'Campo requerido' : ''
-    !this.msgError.title ? this.msgError.title = 'Campo requerido' : ''
-    !this.msgError.body ? this.msgError.body = 'Campo requerido' : ''
-    if(!this.msgError.userId || !this.msgError.title || !this.msgError.body ){
+    !formulario.userId ? this.msgError.userId = 'Campo requerido' : ''
+    !formulario.title ? this.msgError.title = 'Campo requerido' : ''
+    !formulario.body ? this.msgError.body = 'Campo requerido' : ''
+    
+    if(!formulario.userId || !formulario.title || !formulario.body ){
       return;
     }
+    this.postClass.userId = formulario.userId;
+    this.postClass.title = formulario.title;
+    this.postClass.body = formulario.body
     this.postService.post(this.postClass).subscribe(res=>{
       console.log(res);
     }, error=>{
@@ -55,12 +67,10 @@ export class PostListComponent implements OnInit {
     this.modalRef.hide()
     this.getPost()
   }
+  limpiar(){
 
-}
-class Post{
-  userId: number;
-  title: string;
-  body: string
+  }
+
 }
 
 

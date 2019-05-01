@@ -37,15 +37,15 @@
       </button>
     </div>
     <div class="modal-body">
-      <form>
+      <form [formGroup]="postForm">
         <label for="userId">Id de usuario: </label>
-        <input type="number" name="idCliente" class="form-control" [(ngModel)]="postClass.userId">
+        <input type="number" name="idCliente" class="form-control" formControlName="userId">
         <p class="text-danger">{{msgError.userId}}</p>
         <label for="title">Titulo: </label>
-        <input type="text" name="title" class="form-control" [(ngModel)]="postClass.title">
+        <input type="text" name="title" class="form-control" formControlName="title">
         <p class="text-danger">{{msgError.title}}</p>
         <label for="body">Cuerpo: </label>
-        <input type="text" name="body" class="form-control" [(ngModel)]="postClass.body">
+        <input type="text" name="body" class="form-control" formControlName="body">
         <p class="text-danger">{{msgError.body}}</p>
         <button class="btn btn-primary Spacio" (click)="onCreate()">Crear</button>
       </form>
